@@ -36,3 +36,27 @@ async function getCatImage() {
 
 button.addEventListener("click", getCatImage);
 
+
+// Fetch a random cat fact using MeowFacts API
+const factButton = document.querySelector("#load-fact");
+const factContainer = document.querySelector("#cat-fact-container");
+
+async function getCatFact() {
+  try {
+    const response = await fetch("https://meowfacts.herokuapp.com/");
+    if (!response.ok) {
+      throw new Error("Failed to fetch cat fact");
+    }
+
+    const data = await response.json();
+    console.log("Fact API Response:", data);
+
+    factContainer.innerHTML = `<p>${data.data[0]}</p>`;
+  } catch (error) {
+    console.error("Error fetching cat fact:", error);
+    factContainer.innerHTML = `<p style="color: red;">Could not load a fact right now.</p>`;
+  }
+}
+
+factButton.addEventListener("click", getCatFact);
+
