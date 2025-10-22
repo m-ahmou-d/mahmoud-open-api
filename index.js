@@ -20,7 +20,14 @@ async function getCatImage() {
     img.src = data[0].url;
     img.alt = "A random cat";
 
+    // add a second data point (cat ID)
+    const info = document.createElement("p");
+    info.textContent = `Cat ID: ${data[0].id}`;
+
+    // append both to the container
     container.appendChild(img);
+    container.appendChild(info);
+
   } catch (error) {
     console.error("Error fetching cat image:", error);
     container.innerHTML = `<p style="color: red;">Failed to load cat image. Please try again later.</p>`;
@@ -28,3 +35,4 @@ async function getCatImage() {
 }
 
 button.addEventListener("click", getCatImage);
+
