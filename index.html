@@ -9,18 +9,18 @@
 <body>
   <h1>Random Cat Images 🐱</h1>
 
-  <section id="cat-section">
-    <button id="load-cat">Get a Cat!</button>
-    <div id="cat-container">
-      <p>Click the button to load a cat image!</p>
-    </div>
-  </section>
+<section id="cat-section">
+  <h2>Cat Explorer</h2>
+  <label for="data-type">Choose what to view:</label>
+  <select id="data-type">
+    <option value="image">Cat Image</option>
+    <option value="fact">Cat Fact</option>
+  </select>
+  <button id="load-data">Load</button>
 
-  <section id="cat-fact-section">
-    <h2>Random Cat Fact</h2>
-    <div id="cat-fact-container"></div>
-    <button id="load-fact">Get Cat Fact</button>
-  </section>
+  <div id="cat-display"></div>
+</section>
+
 
 
   <script src="index.js"></script>
