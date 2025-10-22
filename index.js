@@ -1,38 +1,37 @@
-// Fetch a random cat image using TheCatAPI
-const button = document.querySelector("#load-cat");
-const container = document.querySelector("#cat-container");
+const loadButton = document.querySelector("#load-data");
+const display = document.querySelector("#cat-display");
+const dataTypeSelect = document.querySelector("#data-type");
 
-async function getCatImage() {
+async function fetchCatData() {
+  const selectedType = dataTypeSelect.value;
+  display.innerHTML = "<p>Loading...</p>";
+
   try {
-    const response = await fetch("https://api.thecatapi.com/v1/images/search");
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
+    let data;
+
+    if (selectedType === "image") {
+      const response = await fetch("https://api.thecatapi.com/v1/images/search");
+      if (!response.ok) throw new Error("Image fetch failed");
+      data = await response.json();
+
+      display.innerHTML = `
+        <img src="${data[0].url}" alt="A random cat" style="max-width:300px;border-radius:10px;margin:10px 0;">
+        <p><strong>Cat ID:</strong> ${data[0].id}</p>
+      `;
+
+    } else if (selectedType === "fact") {
+      const response = await fetch("https://meowfacts.herokuapp.com/");
+      if (!response.ok) throw new Error("Fact fetch failed");
+      data = await response.json();
+
+      display.innerHTML = `<p>${data.data[0]}</p>`;
     }
-
-    const data = await response.json();
-    console.log("API Response:", data); // view in console
-
-    // clear the previous content
-    container.innerHTML = "";
-
-    // create and display the new image
-    const img = document.createElement("img");
-    img.src = data[0].url;
-    img.alt = "A random cat";
-
-    // add a second data point (cat ID)
-    const info = document.createElement("p");
-    info.textContent = `Cat ID: ${data[0].id}`;
-
-    // append both to the container
-    container.appendChild(img);
-    container.appendChild(info);
-
   } catch (error) {
-    console.error("Error fetching cat image:", error);
-    container.innerHTML = `<p style="color: red;">Failed to load cat image. Please try again later.</p>`;
+    console.error("Fetch error:", error);
+    display.innerHTML = `<p style="color:red;">Failed to load data. Try again later.</p>`;
   }
 }
 
-button.addEventListener("click", getCatImage);
+loadButton.addEventListener("click", fetchCatData);
+
 
